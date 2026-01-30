@@ -1,0 +1,60 @@
+version: "3.1"
+nlu:
+- intent: saludar
+  examples: |
+    - hola
+    - buenos dias
+    - hey
+
+- intent: despedir
+  examples: |
+    - adios
+    - hasta luego
+
+- intent: consultar_eventos
+  examples: |
+    - ¿Qué eventos hay programados?
+    - Muéstrame los próximos eventos
+    - ¿Hay algo para el viernes?
+    - ¿Qué eventos hay en octubre?
+    - quiero ver los eventos
+    - ver eventos
+    - dime que eventos hay
+    - lista de eventos
+    - consultar eventos
+    - quiero ver
+
+- intent: agregar_evento
+  examples: |
+    - Quiero agregar un nuevo evento
+    - Necesito crear un evento
+    - Agendar un evento
+    - Registrar un nuevo evento
+    - Quiero programar algo
+    - Agenda la [Conferencia de IA](nombre_evento) para el [15 de diciembre](fecha)
+    - Añade un evento: [Reunión del club de debate](nombre_evento)
+    - Agrega [Feria de Ciencias](nombre_evento) para [mañana](fecha) a las [3 pm](hora)
+    - Nuevo evento: [Taller de Robótica](nombre_evento) en el [laboratorio B2](lugar)
+    - Agéndame la [presentación final](nombre_evento) a las [10 am](hora) del [viernes](fecha)
+    - Crear evento [Charla de Egresados](nombre_evento) en el [auditorio principal](lugar)
+- intent: vincular_cuenta
+  examples: |
+    - quiero vincular mi cuenta
+    - vincular con telegram
+    - recibir notificaciones
+- intent: inform
+  examples: |
+    - [Taller de IA](nombre_evento)
+    - [Reunión académica](nombre_evento)
+    - [Feria de Ciencias](nombre_evento)
+    - el [2026-04-10](fecha)
+    - [15 de octubre](fecha)
+    - [mañana](fecha)
+    - [hoy](fecha)
+    - a las [14:00](hora)
+    - [3 pm](hora)
+    - [10:30 am](hora)
+    - en el [Aula Magna](lugar)
+    - en el [laboratorio B2](lugar)
+    - [auditorio principal](lugar)
+    - mi correo es [usuario@uft.edu](email)
