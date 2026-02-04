@@ -1,0 +1,20 @@
+@"
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Rasa - modelos y datos generados
+models/
+results/
+nlu/
+core/
+endpoints.yml
+credentials.yml
+
+# Otros
+__pycache__/
+*.pyc
+*.pyd
+*.dll
+"@ | Out-File -FilePath .gitignore -Encoding utf8
