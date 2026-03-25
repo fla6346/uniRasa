@@ -1,10 +1,35 @@
 version: "3.1"
-
+slots:
+  nombre_evento:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+  
+  fecha:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+  
+  hora:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+  
+  lugar:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
 intents:
   - saludar
   - despedir
   - consultar_eventos
   - agregar_evento
+  - vincular_cuenta
+  - inform
 
 responses:
   utter_saludar:
