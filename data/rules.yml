@@ -7,19 +7,6 @@ rules:
     - intent: agregar_evento
     - action: action_no_permiso_crear_evento
 
- 
-  - rule: Enviar evento tras completar formulario
-    condition:
-      - active_loop: crear_evento_form
-      - slot_was_set:
-          - nombre_evento
-          - fecha
-          - hora
-          - lugar
-    steps:
-      - action: action_crear_evento
-      - active_loop: null
-
   - rule: Saludar
     steps:
       - intent: saludar

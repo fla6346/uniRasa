@@ -5,32 +5,28 @@ intents:
   - despedir
   - consultar_eventos
   - agregar_evento
-  - vincular_cuenta  # 👈 Asegúrate de incluir este intent
-
-# Entidades solo para vinculación (email)
-entities:
-  - email
-
-# Slots solo si los usas (opcional para vincular_cuenta)
-slots:
-  email:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: email
 
 responses:
   utter_saludar:
-    - text: "¡Hola! Soy tu asistente de eventos universitarios. ¿Quieres ver los próximos eventos o agregar uno nuevo?"
+    - text: "¡Hola! Soy tu asistente de eventos universitarios."
   utter_despedir:
-    - text: "¡Nos vemos!"
+    - text: "¡Hasta luego!"
 
-# Acciones personalizadas — deben coincidir EXACTAMENTE con actions.py
 actions:
   - action_consultar_eventos
   - action_no_permiso_crear_evento
-  - action_vincular_cuenta  # 👈 ¡Nombre correcto!
-
+forms:
+  crear_evento_form:
+    required_slots:
+      - nombre_evento
+      - fecha
+      - hora
+      - lugar
+entities:
+  - nombre_evento
+  - fecha
+  - hora
+  - lugar
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

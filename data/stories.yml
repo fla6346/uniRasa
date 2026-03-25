@@ -2,7 +2,6 @@ version: "3.1"
 
 stories:
 
-# Historia 1: Camino feliz - consulta de eventos
 - story: Camino feliz - consulta de eventos
   steps:
     - intent: saludar
@@ -12,35 +11,7 @@ stories:
     - intent: despedir
     - action: utter_despedir
 
-# Historia 2: Crear un evento (flujo con formulario)
-- story: Crear un nuevo evento
-  steps:
-    - intent: agregar_evento
-    - action: crear_evento_form
-    - active_loop: crear_evento_form
-    # Aquí el usuario responde a las preguntas del formulario
-    - intent: inform
-      entities:
-        - nombre_evento: "Taller de IA"
-    - action: crear_evento_form
-    - intent: inform
-      entities:
-        - fecha: "2026-04-10"
-    - action: crear_evento_form
-    - intent: inform
-      entities:
-        - hora: "15:00"
-    - action: crear_evento_form
-    - intent: inform
-      entities:
-        - lugar: "Aula Magna"
-    - action: crear_evento_form
-    - active_loop: null
-    - action: action_crear_evento
-    - intent: despedir
-    - action: utter_despedir
 
-# Historia 5: Conversación corta - solo saludo y despedida
 - story: Conversación corta - solo saludo y despedida
   steps:
     - intent: saludar
@@ -48,7 +19,6 @@ stories:
     - intent: despedir
     - action: utter_despedir
 
-# Historia 6: Conversación corta - solo consulta
 - story: Conversación corta - solo consulta
   steps:
     - intent: consultar_eventos

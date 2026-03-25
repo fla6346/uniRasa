@@ -4,17 +4,35 @@ venv/
 .venv/
 env/
 
-# Rasa - modelos y datos generados
+# Rasa - modelos y caché (¡NUNCA subir!)
 models/
+.rasa/
 results/
 nlu/
 core/
+
+# Configuraciones con secrets
 endpoints.yml
 credentials.yml
+secrets.yml
 
-# Otros
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
 *.pyd
+*.so
 *.dll
+
+# Variables de entorno
+.env
+.env.local
+
+# Otros
+node_modules/
+.DS_Store
+Thumbs.db
 "@ | Out-File -FilePath .gitignore -Encoding utf8
+
+git add .gitignore
+git commit -m "chore: proper .gitignore for Rasa project"
