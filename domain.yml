@@ -1,28 +1,5 @@
 version: "3.1"
-slots:
-  nombre_evento:
-    type: text
-    influence_conversation: true
-    mappings:
-      - type: from_text
-  
-  fecha:
-    type: text
-    influence_conversation: true
-    mappings:
-      - type: from_text
-  
-  hora:
-    type: text
-    influence_conversation: true
-    mappings:
-      - type: from_text
-  
-  lugar:
-    type: text
-    influence_conversation: true
-    mappings:
-      - type: from_text
+
 intents:
   - saludar
   - despedir
@@ -31,18 +8,53 @@ intents:
   - vincular_cuenta
   - inform
 
+entities:
+  - nombre_evento
+  - fecha
+  - hora
+  - lugar
+
+slots:
+  nombre_evento:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+  fecha:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+  hora:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+  lugar:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+
 responses:
   utter_saludar:
-    - text: "¡Hola! Soy tu asistente de eventos universitarios."
+    - text: "Hola! Soy tu asistente de eventos universitarios."
   utter_despedir:
-    - text: "¡Hasta luego!"
+    - text: "Hasta luego!"
+  utter_ask_nombre_evento:
+    - text: "Como se llama el evento?"
+  utter_ask_fecha:
+    - text: "Que fecha tiene el evento?"
+  utter_ask_hora:
+    - text: "A que hora es el evento?"
+  utter_ask_lugar:
+    - text: "Donde se realiza el evento?"
 
 actions:
   - action_consultar_eventos
   - action_no_permiso_crear_evento
-  - action_consultar_eventos
-  - action_no_permiso_crear_evento
-  - action_guardar_evento 
+  - action_guardar_evento
+
 forms:
   crear_evento_form:
     required_slots:
@@ -50,11 +62,7 @@ forms:
       - fecha
       - hora
       - lugar
-entities:
-  - nombre_evento
-  - fecha
-  - hora
-  - lugar
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

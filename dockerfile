@@ -5,10 +5,10 @@ COPY . .
 
 USER root
 
-# Solo instala requests para el action server
-RUN pip install requests
+# DEBUG: lista los archivos para verificar que domain.yml existe
+RUN ls -la && cat domain.yml
 
-# Entrena el modelo
+RUN pip install requests
 RUN rasa train --fixed-model-name modelo_uft
 
 EXPOSE 5005
