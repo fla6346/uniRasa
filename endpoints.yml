@@ -40,3 +40,12 @@ action_endpoint:
 #  username: username
 #  password: password
 #  queue: queue
+
+action_endpoint:
+  url: null
+
+tracker_store:
+  type: in_memory
+
+lock_store:
+  type: in_memory
