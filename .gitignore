@@ -10,6 +10,18 @@ env/
 results/
 nlu/
 core/
+# .dockerignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.log
+models/*.tar.gz
+.git
+node_modules/
 
 # Configuraciones con secrets
 endpoints.yml
