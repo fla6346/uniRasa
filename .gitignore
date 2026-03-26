@@ -5,7 +5,7 @@ venv/
 env/
 
 # Rasa - modelos y caché (¡NUNCA subir!)
-models/
+#models/
 .rasa/
 results/
 nlu/
