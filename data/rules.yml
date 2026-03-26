@@ -1,18 +1,34 @@
-# rules.yml
 version: "3.1"
 
 rules:
-  - rule: Intento de crear evento → sin permiso
-    steps:
+
+- rule: Responder saludo
+  steps:
+    - intent: saludar
+    - action: utter_saludar
+
+- rule: Responder despedida
+  steps:
+    - intent: despedir
+    - action: utter_despedir
+
+- rule: Consultar eventos
+  steps:
+    - intent: consultar_eventos
+    - action: action_consultar_eventos
+
+- rule: Activar formulario crear evento
+  steps:
     - intent: agregar_evento
-    - action: action_no_permiso_crear_evento
+    - action: crear_evento_form
+    - active_loop: crear_evento_form
 
-  - rule: Saludar
-    steps:
-      - intent: saludar
-      - action: utter_saludar
-
-  - rule: Despedirse
-    steps:
-      - intent: despedir
-      - action: utter_despedir
+- rule: Enviar formulario crear evento
+  condition:
+    - active_loop: crear_evento_form
+  steps:
+    - action: crear_evento_form
+    - active_loop: null
+    - slot_was_set:
+        - requested_slot: null
+    - action: action_guardar_evento

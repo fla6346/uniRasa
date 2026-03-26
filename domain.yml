@@ -40,6 +40,9 @@ responses:
 actions:
   - action_consultar_eventos
   - action_no_permiso_crear_evento
+  - action_consultar_eventos
+  - action_no_permiso_crear_evento
+  - action_guardar_evento 
 forms:
   crear_evento_form:
     required_slots:

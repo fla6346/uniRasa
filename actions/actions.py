@@ -1,84 +1,79 @@
-# actions/actions.py
-
-import requests
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+import requests
+import os
 
-# 🔥 Usa tu IP local, NO localhost
-BACKEND_URL = "http://192.168.0.167:3001"  # ⚠️ ¡Cambia esto por tu IP real!
+# URL de tu backend Node.js en cPanel
+BACKEND_URL = os.environ.get("BACKEND_URL", "https://https://cidtec-uc.com/api")
 
 class ActionConsultarEventos(Action):
     def name(self) -> Text:
         return "action_consultar_eventos"
 
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         try:
-            response = requests.get(f"{BACKEND_URL}/api/eventos", timeout=5)
-            response.raise_for_status()
+            response = requests.get(f"{BACKEND_URL}/eventos", timeout=8)
             eventos = response.json()
 
-            if not eventos:
-                dispatcher.utter_message(text="Por el momento no hay eventos programados.")
+            if not eventos or len(eventos) == 0:
+                dispatcher.utter_message(text="No hay eventos próximos por el momento.")
                 return []
 
-            lista_formateada = "\n".join([
-                f"- {evento.get('nombreevento', 'Evento sin nombre')} "
-                f"(Fecha: {evento.get('fechaevento', 'N/A')})"
-                for evento in eventos
-            ])
-            
-            mensaje_final = f"Claro, aquí tienes los próximos eventos:\n{lista_formateada}"
-            dispatcher.utter_message(text=mensaje_final)
+            mensaje = "📅 *Próximos eventos:*\n"
+            for e in eventos[:5]:  # máximo 5
+                mensaje += f"\n• *{e.get('nombre', 'Sin nombre')}*"
+                mensaje += f"\n  📆 {e.get('fecha', 'Fecha no definida')}"
+                mensaje += f"\n  🕐 {e.get('hora', 'Hora no definida')}"
+                mensaje += f"\n  📍 {e.get('lugar', 'Lugar no definido')}\n"
 
-        except requests.exceptions.RequestException as e:
-            print(f"Error al conectar con la API de eventos: {e}")
-            dispatcher.utter_message(text="Lo siento, tuve un problema al consultar los eventos. Por favor, intenta de nuevo más tarde.")
+            dispatcher.utter_message(text=mensaje)
         except Exception as e:
-            print(f"Ocurrió un error inesperado: {e}")
-            dispatcher.utter_message(text="Lo siento, ocurrió un error inesperado.")
-
+            dispatcher.utter_message(text="No pude obtener los eventos en este momento.")
         return []
 
-class ActionNoPermisoCrearEvento(Action):  # 👈 Nombre más claro
+
+class ActionGuardarEvento(Action):
+    def name(self) -> Text:
+        return "action_guardar_evento"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        nombre = tracker.get_slot("nombre_evento")
+        fecha  = tracker.get_slot("fecha")
+        hora   = tracker.get_slot("hora")
+        lugar  = tracker.get_slot("lugar")
+
+        try:
+            response = requests.post(f"{BACKEND_URL}/eventos", json={
+                "nombre": nombre,
+                "fecha": fecha,
+                "hora": hora,
+                "lugar": lugar,
+            }, timeout=8)
+
+            if response.status_code == 201:
+                dispatcher.utter_message(
+                    text=f"✅ Evento *{nombre}* creado para el {fecha} a las {hora} en {lugar}."
+                )
+            else:
+                dispatcher.utter_message(text="No pude guardar el evento. Intenta más tarde.")
+        except Exception as e:
+            dispatcher.utter_message(text="Error al guardar el evento.")
+        return []
+
+
+class ActionNoPermisoCrearEvento(Action):
     def name(self) -> Text:
         return "action_no_permiso_crear_evento"
 
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # Mensaje claro + redirección
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(
-            text="Lo siento, solo los usuarios académicos pueden crear eventos. "
-                 "Si eres académico, por favor inicia sesión con tu cuenta correspondiente.",
-            custom={
-                "type": "navigate",
-                "payload": {
-                    "route": "/admin/Login"  # Asegúrate de que esta ruta exista en tu Expo Router
-                }
-            }
+            text="Lo siento, no tienes permiso para crear eventos."
         )
-        return []
-
-class ActionVincularCuenta(Action):
-    def name(self) -> Text:
-        return "action_vincular_cuenta"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        chat_id = tracker.sender_id
-        email = next(tracker.get_latest_entity_values("email"), None)
-
-        if not email:
-            dispatcher.utter_message(text="No entendí tu email. Por favor, di algo como 'vincular mi cuenta con usuario@email.com'")
-            return []
-
-        try:
-            response = requests.post(
-                f"{BACKEND_URL}/api/users/link-telegram",
-                json={"email": email, "chat_id": chat_id},
-                timeout=5
-            )
-            response.raise_for_status()
-            dispatcher.utter_message(text="¡Genial! Tu cuenta ha sido vinculada. Ahora recibirás notificaciones por aquí.")
-        except requests.exceptions.RequestException:
-            dispatcher.utter_message(text="Lo siento, no pude vincular tu cuenta. Asegúrate de que el email sea correcto.")
-        
         return []
