@@ -1,2 +1,16 @@
+# requirements.txt - Versión compatible con Render
 
+# Actualizar herramientas de build primero
+pip>=23.0.0
+setuptools>=65.5.0
+wheel>=0.40.0
+
+# Rasa y dependencias críticas con versiones compatibles
 rasa==3.6.0
+PyYAML>=6.0.1,<7.0.0
+sqlalchemy>=1.4.0,<2.0.0
+pydantic>=1.10.2,<1.10.3
+
+# Librerías adicionales si las necesitas
+# pandas>=1.5.0
+# requests>=2.28.0
