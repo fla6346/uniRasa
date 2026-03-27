@@ -2,8 +2,10 @@
 set -e  # Salir si algún comando falla
 
 echo "🚀 Iniciando Action Server en puerto 5055..."
-# Iniciar Action Server en background en puerto 5055 (interno)
-python -m rasa_sdk.endpoint --actions actions --port 5055 --hostname localhost &
+
+# ✅ Iniciar Action Server en background (SIN --hostname)
+# Nota: Por defecto se bind a 0.0.0.0, que funciona en Render
+python -m rasa_sdk.endpoint --actions actions --port 5055 &
 ACTION_PID=$!
 
 # Esperar que el action server esté listo
@@ -18,8 +20,8 @@ fi
 
 echo "✅ Action Server listo. Iniciando Rasa Core..."
 
-# Iniciar Rasa Core en el puerto que Render asigna ($PORT)
-# Especificar el modelo entrenado
+# ✅ Iniciar Rasa Core en el puerto que Render asigna ($PORT)
+# Especificar el modelo y endpoints
 exec rasa run \
   --enable-api \
   --cors "*" \
