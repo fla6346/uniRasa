@@ -10,8 +10,6 @@
 # Server which runs your custom actions.
 # https://rasa.com/docs/rasa/custom-actions
 
-action_endpoint:
-  url: "https://7685-2800-320-cd59-bc00-201c-34e-9bd6-f7e4.ngrok-free.app/webhook"
 
 # Tracker store which is used to store the conversations.
 # By default the conversations are stored in memory.
@@ -42,8 +40,6 @@ action_endpoint:
 #  queue: queue
 action_endpoint:
   url: "http://localhost:5055/webhook"
-action_endpoint:
-  url: null
 
 tracker_store:
   type: in_memory
