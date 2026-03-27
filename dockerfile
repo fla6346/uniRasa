@@ -17,5 +17,5 @@ EXPOSE 5055
 COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
-USER 1001
+ENTRYPOINT []
 CMD ["/app/start.sh"]
