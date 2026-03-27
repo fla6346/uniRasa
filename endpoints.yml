@@ -45,4 +45,4 @@ tracker_store:
   type: memory
 
 lock_store:
-  type: memory
+  type: in_memory
