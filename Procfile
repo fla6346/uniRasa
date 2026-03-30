@@ -1,1 +1,0 @@
-web: rasa run --enable-api --cors "*" --port $PORT --model models/modelo_uft.tar.gz
