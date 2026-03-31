@@ -6,10 +6,10 @@ COPY . .
 USER root
 
 RUN pip install requests
+
 RUN rasa train --fixed-model-name modelo_uft
 
 EXPOSE 5005
-EXPOSE 5055
 
 ENTRYPOINT []
 CMD ["/bin/bash", "-c", "python -m rasa_sdk.endpoint --actions actions --port 5055 & sleep 8 && exec rasa run --enable-api --cors '*' --port 5005 --model models/modelo_uft.tar.gz --endpoints endpoints.yml"]
