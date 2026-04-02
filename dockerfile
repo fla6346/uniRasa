@@ -5,10 +5,21 @@ COPY . .
 
 USER root
 
+# Instalar supervisord y dependencias
+RUN apt-get update && apt-get install -y supervisor && rm -rf /var/lib/apt/lists/*
 RUN pip install requests
+
+# Entrenar el modelo
 RUN rasa train --fixed-model-name modelo_uft
 
-EXPOSE 5005
+# Crear directorio para logs de supervisord
+RUN mkdir -p /var/log/supervisor
 
-ENTRYPOINT []
-CMD ["/bin/bash", "-c", "rasa run --enable-api --cors '*' --port 5005 --model models/modelo_uft.tar.gz --endpoints endpoints.yml & sleep 45 && python -m rasa_sdk.endpoint --actions actions --port 5055 & wait"]
+# Copiar configuración de supervisord
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 5005
+ENV PORT=5005
+
+# Iniciar supervisord (NO usar CMD array, usar shell form)
+CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

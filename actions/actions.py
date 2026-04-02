@@ -5,7 +5,7 @@ import requests
 import os
 
 # URL de tu backend Node.js en cPanel
-BACKEND_URL = os.environ.get("BACKEND_URL", "https://https://cidtec-uc.com/api")
+BACKEND_URL = os.environ.get("BACKEND_URL", "https://cidtec-uc.com/api")
 
 class ActionConsultarEventos(Action):
     def name(self) -> Text:
