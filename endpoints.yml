@@ -40,9 +40,11 @@
 #  queue: queue
 action_endpoint:
   url: "http://localhost:5055/webhook"
-
+  rest:
+    url: "/webhooks/rest/webhook"
 tracker_store:
   type: in_memory
 
 lock_store:
   type: in_memory
+  
